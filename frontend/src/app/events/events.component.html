@@ -1,0 +1,12 @@
+<h1>Eventos</h1>
+<div *ngFor="let user of users">
+  <h2>{{ user.name }}'s Events</h2>
+  <ul>
+    <li *ngFor="let event of user.events">
+      Nome do Evento: {{ event.eventName }}, Início:
+      {{ event.startDate | date : "medium" }}, Término:
+      {{ event.endDate | date : "medium" }}
+    </li>
+    <hr />
+  </ul>
+</div>
