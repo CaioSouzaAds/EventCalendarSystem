@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
+import { EventService } from '../services/event-service.service';
 
 @Component({
   selector: 'app-events',
@@ -9,11 +10,15 @@ import { User } from '../models/user.model';
 })
 export class EventsComponent implements OnInit {
   users: User[] = [];
+  listFilter: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private eventService: EventService) {}
 
   ngOnInit() {
-    this.getUsers();
+    this.eventService.loadUsers().subscribe((data: User[]) => {
+      console.log(data); // Log the received data to the console
+      this.users = data;
+    });
   }
 
   get noEventsFound(): boolean {
@@ -23,10 +28,8 @@ export class EventsComponent implements OnInit {
     );
   }
 
-  getUsers(): void {
-    this.http.get<User[]>('http://localhost:8080/users').subscribe({
-      next: (data) => (this.users = data),
-      error: (error) => console.error('There was an error!', error),
-    });
+  filterUsers(): void {
+    const filterByLower = this.listFilter.toLowerCase(); // Converte o filtro para minúsculas
+    this.users = this.eventService.filterUsers(filterByLower);
   }
 }

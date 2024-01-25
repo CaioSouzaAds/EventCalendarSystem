@@ -1,16 +1,23 @@
-<h2>Eventos</h2>
+<h2 class="mt-3">Eventos</h2>
 <hr />
 
-<form class="row g-3">
+<form class="row g-3" (ngSubmit)="filterUsers()">
   <div class="col-auto">
-    <input type="text" class="form-control" placeholder="buscar" />
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Buscar"
+      [(ngModel)]="listFilter"
+      name="listFilter"
+    />
   </div>
   <div class="col-auto">
     <button type="submit" class="btn btn-outline-success">Buscar</button>
   </div>
 </form>
 
-<table class="table table-striped">
+<!-- <h3>Filtro: {{ listFilter }}</h3> -->
+<table class="table table-striped my-3">
   <thead class="table-dark">
     <tr>
       <th>ID Usuário</th>
@@ -18,8 +25,9 @@
       <th>Email</th>
       <th>ID Evento</th>
       <th>Nome do Evento</th>
-      <th>Inicio do Evento</th>
+      <th>Início do Evento</th>
       <th>Término do Evento</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -42,6 +50,12 @@
         <td>{{ event.eventName }}</td>
         <td>{{ event.startDate | date : "medium" }}</td>
         <td>{{ event.endDate | date : "medium" }}</td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm mx-2">
+            Editar
+          </button>
+          <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+        </td>
       </tr>
     </ng-container>
   </tbody>
