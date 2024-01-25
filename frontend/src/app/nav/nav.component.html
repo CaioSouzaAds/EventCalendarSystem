@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand" href="#">Sys Events</a>
     <button
       class="navbar-toggler"
@@ -14,10 +14,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div
-      class="collapse navbar-collapse"
+      class="collapse navbar-collapse justify-content-around"
       [ngbCollapse]="isCollapsed"
       id="navbarNav"
     >
+      <!-- Centraliza os itens de navegação -->
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Eventos</a>
@@ -27,6 +28,32 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Contatos</a>
+        </li>
+      </ul>
+
+      <!-- Dropdown alinhado à direita -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown" dropdown>
+          <a
+            dropdownToggle
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Caio
+          </a>
+          <div
+            *dropdownMenu
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdownMenuLink"
+          >
+            <a class="dropdown-item" href="#"> Perfil </a>
+            <div role="separator" class="divider"></div>
+            <a class="dropdown-item" href="#"> Sair </a>
+          </div>
         </li>
       </ul>
     </div>
