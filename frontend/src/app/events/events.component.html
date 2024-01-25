@@ -48,13 +48,17 @@
         </td>
         <td>{{ event.id }}</td>
         <td>{{ event.eventName }}</td>
-        <td>{{ event.startDate | date : "medium" }}</td>
-        <td>{{ event.endDate | date : "medium" }}</td>
+        <td>{{ event.startDate | dateTimeFormatPipe }}</td>
+        <td>{{ event.endDate | dateTimeFormatPipe }}</td>
         <td>
           <button type="button" class="btn btn-primary btn-sm mx-2">
+            <i class="fa fa-edit"></i>
             Editar
           </button>
-          <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+          <button type="button" class="btn btn-danger btn-sm">
+            <i class="fa fa-trash"></i>
+            Excluir
+          </button>
         </td>
       </tr>
     </ng-container>

@@ -2,29 +2,35 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
+//{providedIn: 'root'}
 export class EventService {
   private originalUsersSubject = new BehaviorSubject<User[]>([]);
   public originalUsers$: Observable<User[]>; //Observable para dados originais
+
+  baseURL = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
     this.originalUsers$ = this.originalUsersSubject.asObservable();
   }
 
   loadUsers(): Observable<User[]> {
-    // Para retornar um Observable
-    return this.http.get<User[]>('http://localhost:8080/users');
+    return this.http.get<User[]>(`${this.baseURL}/users`).pipe(
+      tap((data) => this.originalUsersSubject.next(data)) // Atualiza BehaviorSubject
+    );
   }
 
   filterUsers(filterBy: string): User[] {
     const filterByLower = filterBy.toLowerCase();
-    return this.originalUsersSubject.value.filter((user) =>
-      user.events.some((event) =>
-        event.eventName.toLowerCase().includes(filterByLower)
-      )
-    );
+    return this.originalUsersSubject.value
+      .map((user) => ({
+        ...user,
+        events: user.events.filter((event) =>
+          event.eventName.toLowerCase().includes(filterByLower)
+        ),
+      }))
+      .filter((user) => user.events.length > 0);
   }
 }
