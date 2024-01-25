@@ -1,12 +1,55 @@
-<h1>Eventos</h1>
-<div *ngFor="let user of users">
-  <h2>{{ user.name }}'s Events</h2>
-  <ul>
-    <li *ngFor="let event of user.events">
-      Nome do Evento: {{ event.eventName }}, Início:
-      {{ event.startDate | date : "medium" }}, Término:
-      {{ event.endDate | date : "medium" }}
-    </li>
-    <hr />
-  </ul>
-</div>
+<h2>Eventos</h2>
+<hr />
+
+<form class="row g-3">
+  <div class="col-auto">
+    <input type="text" class="form-control" placeholder="buscar" />
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-outline-success">Buscar</button>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>ID Usuário</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>ID Evento</th>
+      <th>Nome do Evento</th>
+      <th>Inicio do Evento</th>
+      <th>Término do Evento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let user of users">
+      <tr *ngFor="let event of user.events; let i = index">
+        <td *ngIf="i === 0" [attr.rowspan]="user.events.length">
+          {{ user.id }}
+        </td>
+        <td *ngIf="i === 0" [attr.rowspan]="user.events.length">
+          {{ user.name }}
+        </td>
+        <td
+          *ngIf="i === 0"
+          [attr.rowspan]="user.events.length"
+          class="border-right"
+        >
+          {{ user.email }}
+        </td>
+        <td>{{ event.id }}</td>
+        <td>{{ event.eventName }}</td>
+        <td>{{ event.startDate | date : "medium" }}</td>
+        <td>{{ event.endDate | date : "medium" }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tfoot>
+    <tr *ngIf="noEventsFound">
+      <td colspan="7" class="text-center">
+        <h4>Nenhum evento encontrado</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>

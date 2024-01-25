@@ -16,6 +16,13 @@ export class EventsComponent implements OnInit {
     this.getUsers();
   }
 
+  get noEventsFound(): boolean {
+    return (
+      this.users.length === 0 ||
+      this.users.every((user) => user.events.length === 0)
+    );
+  }
+
   getUsers(): void {
     this.http.get<User[]>('http://localhost:8080/users').subscribe({
       next: (data) => (this.users = data),
