@@ -32,7 +32,7 @@ public class SecurityConfigurations {
 						.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 						.requestMatchers(HttpMethod.POST, "/users", "/users/create").permitAll()//hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/events", "events/{id}", "/events/user/{id}").permitAll()
-						.requestMatchers(HttpMethod.GET, "/users", "/users/create", "/events", "events/{id}", "/events/user/{id}").permitAll()
+						.requestMatchers(HttpMethod.GET, "/users", "/users/{id}","/users/create", "/events", "events/{id}", "/events/user/{id}").permitAll()
 						.anyRequest().authenticated()//.hasRole("ADMIN").anyRequest().authenticated()
 
 				)
