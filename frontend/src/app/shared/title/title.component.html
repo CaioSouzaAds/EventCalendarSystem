@@ -1,0 +1,15 @@
+<div class="d-flex p-3 my-3 text-white bg-dark rounded shadow-sm">
+  <div class="d-flex align-items-center me-auto">
+    <i [ngClass]="[iconClass, 'me-3']"></i>
+
+    <div class="lh-1">
+      <h1 class="mb-0">{{ titulo }}</h1>
+      <small>{{ caption }}</small>
+    </div>
+  </div>
+  <div class="p-3" *ngIf="listButton">
+    <button class="btn btn-outline-light" (click)="listar()">
+      Listar {{ titulo }}
+    </button>
+  </div>
+</div>

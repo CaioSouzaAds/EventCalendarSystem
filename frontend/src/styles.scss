@@ -1,15 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~bootstrap/dist/css/bootstrap.min.css';
+
+/* Importing Cosmo theme from Bootswatch */
+@import '~bootswatch/dist/cosmo/bootstrap.min.css';
+
+/* Importing Font Awesome CSS */
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
-/* Importing Bootstrap SCSS file. */
-//@import "./node_modules/bootstrap/scss/bootstrap.min.css";
-
-/* Importing Datepicker SCSS file. */
-@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
-
+/* Importing Datepicker CSS file. */
+@import "~ngx-bootstrap/datepicker/bs-datepicker.css";
 
 body {
-  background-color: #333;
+  background-color: #474747;
   color: white;
 }

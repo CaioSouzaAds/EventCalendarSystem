@@ -1,0 +1,106 @@
+<div class="card rounded shadow-sm p-3">
+  <div class="d-flex">
+    <div class="flex-fill pr-3">
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Filtro:</div>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Busca por nome evento"
+          [(ngModel)]="listFilter"
+          name="listFilter"
+          (keyup)="filterUsers()"
+        />
+      </div>
+    </div>
+    <div class="ms-3">
+      <a class="d-flex btn btn-outline-primary" routerLink="/events/details">
+        <i class="fa fa-plus-circle my-1"></i>
+        <b class="ml-1 d-none d-sm-block">Novo</b>
+      </a>
+    </div>
+  </div>
+
+  <!-- app.component.html -->
+  <!-- Cabeçalho da tabela ajustado -->
+  <table class="table table-striped my-3">
+    <thead class="table-dark">
+      <tr>
+        <th class="d-none d-md-table-cell">Nome</th>
+        <th class="d-none d-md-table-cell">Email</th>
+        <th>Nome do Evento</th>
+        <th>Início do Evento</th>
+        <th>Término do Evento</th>
+        <th class="text-center">Ações</th>
+        <!-- Classe text-center adicionada aqui -->
+      </tr>
+    </thead>
+
+    <!-- Corpo da tabela ajustado -->
+    <tbody>
+      <ng-container *ngFor="let user of users">
+        <tr *ngFor="let event of user.events; let i = index">
+          <td
+            class="d-none d-md-table-cell"
+            *ngIf="i === 0"
+            [attr.rowspan]="user.events.length"
+          >
+            {{ user.name }}
+          </td>
+          <td
+            class="d-none d-md-table-cell"
+            *ngIf="i === 0"
+            [attr.rowspan]="user.events.length"
+            class="border-right"
+          >
+            {{ user.email }}
+          </td>
+          <td>{{ event.eventName }}</td>
+          <td>{{ event.startDate | dateTimeFormatPipe }}</td>
+          <td>{{ event.endDate | dateTimeFormatPipe }}</td>
+          <td class="text-center">
+            <!-- Classe text-center adicionada também aqui -->
+            <!-- Botões de ação -->
+            <button
+              type="button"
+              class="btn btn-primary btn-sm mx-2"
+              (click)="detailEventId(event.id)"
+              tooltip="Editar"
+            >
+              <i class="fa fa-edit"></i>
+              Editar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              (click)="openDeleteModal(template, user.id, event.id)"
+              tooltip="Excluir"
+            >
+              <i class="fa fa-trash"></i>
+              Excluir
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<!-- Estrutura do Modal -->
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p style="color: #343a40">Tem certeza de que deseja excluir este evento?</p>
+    <button
+      type="button"
+      class="btn btn-secondary mx-2"
+      (click)="modalRef.hide()"
+    >
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-danger" (click)="deleteEvent()">
+      Excluir
+    </button>
+  </div>
+</ng-template>

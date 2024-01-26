@@ -24,12 +24,17 @@ export class EventService {
   }
 
   filterUsers(filterBy: string): User[] {
-    const filterByLower = filterBy.toLowerCase();
+    // Remove espaços internos e converte para minúsculas
+    const filterByProcessed = filterBy.replace(/\s+/g, '').toLowerCase();
+
     return this.originalUsersSubject.value
       .map((user) => ({
         ...user,
         events: user.events.filter((event) =>
-          event.eventName.toLowerCase().includes(filterByLower)
+          event.eventName
+            .replace(/\s+/g, '')
+            .toLowerCase()
+            .includes(filterByProcessed)
         ),
       }))
       .filter((user) => user.events.length > 0);

@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-lg-5 d-none d-lg-block text-center">
+      <h1 class="mb-4">Cadastro de Usuário</h1>
+      <img
+        src="../../../../assets/registerImage.png"
+        class="img-fluid"
+        alt=""
+      />
+    </div>
+
+    <div class="col-lg-6">
+      <form class="p-lg-4">
+        <div class="d-block d-lg-none text-center mb-4">
+          <h3>Cadastro de Usuário</h3>
+        </div>
+
+        <!-- Campos do formulário -->
+        <div class="form-group mb-3">
+          <label>Primeiro Nome</label>
+          <input
+            type="text"
+            class="form-control rounded"
+            placeholder="Insira o Primeiro nome"
+            value="João"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label>Email:</label>
+          <input
+            class="form-control rounded"
+            type="email"
+            placeholder="Insira o Email"
+            value="joao.silva@example.com"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label>Senha:</label>
+          <input
+            class="form-control rounded"
+            type="password"
+            placeholder="Digite uma Senha"
+            value="senha123"
+          />
+        </div>
+
+        <div class="form-group mb-3">
+          <label>Confirmar Senha:</label>
+          <input
+            class="form-control rounded"
+            type="password"
+            placeholder="Confirme a Senha"
+            value="senha123"
+          />
+        </div>
+
+        <div class="form-group text-center">
+          <button class="btn btn-lg btn-success">Registrar</button>
+        </div>
+
+        <div class="form-group text-center mt-3">
+          <a class="btn btn-link" routerLink="/user/login">Já sou Cadastrado</a>
+        </div>
+
+        <div class="custom-control custom-checkbox text-center mt-4">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="customCheck1"
+          />
+          <label class="custom-control-label" for="customCheck1">
+            Eu concordo com os <a href="#">Termos de Uso</a>.
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
