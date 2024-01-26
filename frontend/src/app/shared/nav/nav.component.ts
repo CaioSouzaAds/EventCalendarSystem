@@ -10,11 +10,10 @@ export class NavComponent implements OnInit {
   isCollapsed = true;
 
   constructor(private router: Router) {}
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+
+  ngOnInit(): void {}
 
   showMenu(): boolean {
-    return this.router.url != '/user/login';
+    return this.router.url !== '/user/login';
   }
 }

@@ -10,65 +10,113 @@
     </div>
 
     <div class="col-lg-6">
-      <form class="p-lg-4">
+      <form [formGroup]="form" class="p-lg-4" (ngSubmit)="submitForm()">
         <div class="d-block d-lg-none text-center mb-4">
           <h3>Cadastro de Usuário</h3>
         </div>
 
-        <!-- Campos do formulário -->
+        <!-- Campo do Primeiro Nome -->
         <div class="form-group mb-3">
-          <label>Primeiro Nome</label>
+          <label for="firstName">Primeiro Nome:</label>
           <input
             type="text"
+            id="firstName"
             class="form-control rounded"
             placeholder="Insira o Primeiro nome"
-            value="João"
+            formControlName="firstName"
+            [ngClass]="{
+              'is-invalid': f.firstName.invalid && f.firstName.touched
+            }"
           />
+          <div
+            *ngIf="f.firstName.invalid && f.firstName.touched"
+            class="invalid-feedback"
+          >
+            Primeiro nome é obrigatório.
+          </div>
         </div>
 
+        <!-- Campo de Email -->
         <div class="form-group mb-3">
-          <label>Email:</label>
+          <label for="email">Email:</label>
           <input
-            class="form-control rounded"
             type="email"
+            id="email"
+            class="form-control rounded"
             placeholder="Insira o Email"
-            value="joao.silva@example.com"
+            formControlName="email"
+            [ngClass]="{ 'is-invalid': f.email.invalid && f.email.touched }"
           />
+          <div
+            *ngIf="f.email.invalid && f.email.touched"
+            class="invalid-feedback"
+          >
+            Email é obrigatório e deve ser um endereço de email válido.
+          </div>
         </div>
 
+        <!-- Campo de Senha -->
         <div class="form-group mb-3">
-          <label>Senha:</label>
+          <label for="password">Senha:</label>
           <input
-            class="form-control rounded"
             type="password"
+            id="password"
+            class="form-control rounded"
             placeholder="Digite uma Senha"
-            value="senha123"
+            formControlName="password"
+            [ngClass]="{
+              'is-invalid': f.password.invalid && f.password.touched
+            }"
           />
+          <div
+            *ngIf="f.password.invalid && f.password.touched"
+            class="invalid-feedback"
+          >
+            Senha é obrigatória e deve ter pelo menos 6 caracteres.
+          </div>
         </div>
 
+        <!-- Campo de Confirmar Senha -->
         <div class="form-group mb-3">
-          <label>Confirmar Senha:</label>
+          <label for="confirmPassword">Confirmar Senha:</label>
           <input
-            class="form-control rounded"
             type="password"
+            id="confirmPassword"
+            class="form-control rounded"
             placeholder="Confirme a Senha"
-            value="senha123"
+            formControlName="confirmPassword"
+            [ngClass]="{
+              'is-invalid':
+                f.confirmPassword.invalid && f.confirmPassword.touched
+            }"
           />
+          <div
+            *ngIf="f.confirmPassword.invalid && f.confirmPassword.touched"
+            class="invalid-feedback"
+          >
+            Confirmação de senha é obrigatória.
+          </div>
         </div>
 
+        <!-- Botão de Registro -->
         <div class="form-group text-center">
-          <button class="btn btn-lg btn-success">Registrar</button>
+          <button type="submit" class="btn btn-lg btn-success">
+            Registrar
+          </button>
         </div>
 
+        <!-- Link para login -->
         <div class="form-group text-center mt-3">
           <a class="btn btn-link" routerLink="/user/login">Já sou Cadastrado</a>
         </div>
 
+        <!-- Checkbox de Concordância -->
         <div class="custom-control custom-checkbox text-center mt-4">
           <input
             type="checkbox"
             class="custom-control-input"
             id="customCheck1"
+            formControlName="agreeTerms"
           />
           <label class="custom-control-label" for="customCheck1">
             Eu concordo com os <a href="#">Termos de Uso</a>.

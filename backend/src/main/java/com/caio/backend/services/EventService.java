@@ -1,6 +1,7 @@
 package com.caio.backend.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,17 @@ public class EventService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	public List<EventDTO> getAllEvents() {
+        return eventRepository.findAll().stream()
+                .map(event -> new EventDTO(event.getId(), event.getEventName(), event.getStartDate(), event.getEndDate()))
+                .collect(Collectors.toList());
+    }
+	
+	public Optional<EventDTO> getEventById(Long eventId) {
+        return eventRepository.findById(eventId)
+                .map(event -> new EventDTO(event.getId(), event.getEventName(), event.getStartDate(), event.getEndDate()));
+    }
 
 	public EventDTO createEvent(EventDTO eventDto, Long userId) {
 	    try {

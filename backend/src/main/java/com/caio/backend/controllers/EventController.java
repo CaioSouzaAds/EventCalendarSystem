@@ -23,31 +23,42 @@ import com.caio.backend.services.EventService;
 @CrossOrigin(origins = "*")
 public class EventController {
 
-    @Autowired
-    private EventService eventService;
+	@Autowired
+	private EventService eventService;
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDto, @PathVariable Long userId) {
-        EventDTO createdEvent = eventService.createEvent(eventDto, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
-    }
+	@GetMapping
+	public ResponseEntity<List<EventDTO>> getAllEvents() {
+		List<EventDTO> events = eventService.getAllEvents();
+		return ResponseEntity.ok(events);
+	}
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<EventDTO>> getEventsByUserId(@PathVariable Long userId) {
-        List<EventDTO> events = eventService.getAllEventsByUserId(userId);
-        return ResponseEntity.ok(events);
-    }
+	@GetMapping("/{eventId}")
+	public ResponseEntity<EventDTO> getEventById(@PathVariable Long eventId) {
+		return eventService.getEventById(eventId).map(eventDto -> ResponseEntity.ok(eventDto))
+				.orElseGet(() -> ResponseEntity.notFound().build());
+	}
 
-    @PutMapping("/{eventId}")
-    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody EventDTO eventDto) {
-        EventDTO updatedEvent = eventService.updateEvent(eventId, eventDto);
-        return ResponseEntity.ok(updatedEvent);
-    }
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<EventDTO>> getEventsByUserId(@PathVariable Long userId) {
+		List<EventDTO> events = eventService.getAllEventsByUserId(userId);
+		return ResponseEntity.ok(events);
+	}
 
-    @DeleteMapping("/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
-        eventService.deleteEvent(eventId);
-        return ResponseEntity.noContent().build();
-    }
+	@PostMapping("/{userId}")
+	public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDto, @PathVariable Long userId) {
+		EventDTO createdEvent = eventService.createEvent(eventDto, userId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
+	}
+
+	@PutMapping("/{eventId}")
+	public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody EventDTO eventDto) {
+		EventDTO updatedEvent = eventService.updateEvent(eventId, eventDto);
+		return ResponseEntity.ok(updatedEvent);
+	}
+
+	@DeleteMapping("/{eventId}")
+	public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
+		eventService.deleteEvent(eventId);
+		return ResponseEntity.noContent().build();
+	}
 }
-

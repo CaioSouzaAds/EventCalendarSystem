@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -16,8 +16,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EventDetailsComponent } from './components/events/event-details/event-details.component';
 import { EventListComponent } from './components/events/event-list/event-list.component';
 import { EventsComponent } from './components/events/events.component';
-import { ProfileComponent } from './components/user/profile/profile.component';
 import { LoginComponent } from './components/user/login/login.component';
+import { ProfileComponent } from './components/user/profile/profile.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { UserComponent } from './components/user/user.component';
 import { DataTimeFormatPipe } from './helpers/DataTimeFormat.pipe';
@@ -44,6 +44,7 @@ import { TitleComponent } from './shared/title/title.component';
     BrowserModule,
     AppRoutingModule,
     ModalModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     CollapseModule.forRoot(),

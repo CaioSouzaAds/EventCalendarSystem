@@ -31,11 +31,11 @@ public class UserService {
 	}
 
 	public User createUser(User user) {
-		// Codificar a senha antes de salvar no banco de dados
+		// Codifica a senha antes de salvar no banco de dados
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 
-		// Salvar o usuário com a senha codificada
+		// Salva usuário com a senha codificada
 		User newUser = userRepository.save(user);
 		return newUser;
 	}
@@ -77,6 +77,26 @@ public class UserService {
 	            .map(event -> new EventDTO(event.getId(), event.getEventName(), event.getStartDate(), event.getEndDate()))
 	            .collect(Collectors.toSet());
 	}
+	
+	
+	public User updateUser(Long id, User userDetails) {
+        return userRepository.findById(id).map(user -> {
+            user.setName(userDetails.getName());
+            user.setEmail(userDetails.getEmail());
+            //Codificar a senha
+            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+            
+            return userRepository.save(user);
+        }).orElse(null);
+    }
+
+    public boolean deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
 
 
