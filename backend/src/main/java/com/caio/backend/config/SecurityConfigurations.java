@@ -25,21 +25,22 @@ public class SecurityConfigurations {
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.csrf(csrf -> csrf.disable())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-						.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-						.requestMatchers(HttpMethod.POST, "/users", "/users/create").permitAll()//hasRole("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/events", "events/{id}", "/events/user/{id}").permitAll()
-						.requestMatchers(HttpMethod.GET, "/users", "/users/{id}","/users/create", "/events", "events/{id}", "/events/user/{id}").permitAll()
-						.anyRequest().authenticated()//.hasRole("ADMIN").anyRequest().authenticated()
-
-				)
-				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-				.build();
-
+	    return httpSecurity
+	        .csrf(csrf -> csrf.disable())
+	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .authorizeHttpRequests(authorize -> authorize
+	            .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register", "/users", "/users/create", "/events", "/events/{id}", "/events/user/{id}").permitAll()
+	            .requestMatchers(HttpMethod.GET, "/api/users", "/users", "/users/{id}", "/users/create", "/events", "/events/{id}", "/events/user/{id}").permitAll()
+	            .requestMatchers(HttpMethod.DELETE, "/events/{id}").permitAll()
+	            .requestMatchers(HttpMethod.PUT, "/events/{eventId}").permitAll()
+	            .anyRequest().authenticated()
+	        )
+	        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+	        .build();
 	}
+
+
+
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)

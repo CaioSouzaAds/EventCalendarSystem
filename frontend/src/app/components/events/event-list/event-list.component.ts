@@ -9,53 +9,76 @@ import { EventService } from 'src/app/services/event-service.service';
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styleUrl: './event-list.component.scss',
+  styleUrls: ['./event-list.component.scss'], // Correção: deve ser styleUrls
 })
 export class EventListComponent implements OnInit {
   modalRef!: BsModalRef;
-
   users: User[] = [];
   originalUsers: User[] = [];
   listFilter: string = '';
+  selectedUserId!: number;
+  selectedEventId!: number;
+  selectedEventName!: String;
 
   constructor(
     private eventService: EventService,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private Router: Router
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.spinner.show();
-
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
-
-    this.eventService.loadUsers().subscribe((data: User[]) => {
-      this.users = data;
-      this.originalUsers = data;
-    });
+    this.loadUsers();
   }
 
+  loadUsers() {
+    this.eventService.loadUsers().subscribe({
+      next: (data: User[]) => {
+        this.users = data;
+        this.originalUsers = data;
+      },
+      error: (error) => console.error('Error loading users', error),
+    });
+  }
   openDeleteModal(
     template: TemplateRef<any>,
     userId: number,
-    eventId: number
+    eventId: number,
+    eventName: String
   ): void {
-    //this.selectedUserId = userId; // Se necessário
-    //this.selectedEventId = eventId; // Se necessário
+    this.selectedUserId = userId;
+    this.selectedEventId = eventId;
+    this.selectedEventName = eventName;
     this.modalRef = this.modalService.show(template);
   }
 
   detailEventId(id: number): void {
-    this.Router.navigate([`events/details/${id}`]);
+    console.log('Navegando para o evento com ID:', id);
+    this.router.navigate([`events/details/${id}`]);
   }
 
   deleteEvent(): void {
-    //console.log('Evento excluído');
-    this.toastr.success('Evento deletado com sucesso', 'Deletado!');
+    this.eventService.deleteEvent(this.selectedEventId).subscribe({
+      next: () => {
+        this.toastr.success('Evento deletado com sucesso', 'Deletado!');
+        this.updateEventList();
+        this.modalRef.hide();
+      },
+      error: (error) => this.toastr.error('Erro ao deletar o evento', 'Erro!'),
+    });
+  }
+
+  updateEventList() {
+    this.loadUsers();
+    this.eventService.loadUsers().subscribe((data: User[]) => {
+      this.users = data;
+      this.originalUsers = data;
+    });
   }
 
   get noEventsFound(): boolean {

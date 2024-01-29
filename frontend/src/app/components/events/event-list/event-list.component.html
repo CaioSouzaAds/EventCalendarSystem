@@ -75,7 +75,9 @@
             <button
               type="button"
               class="btn btn-danger btn-sm"
-              (click)="openDeleteModal(template, user.id, event.id)"
+              (click)="
+                openDeleteModal(template, user.id, event.id, event.eventName)
+              "
               tooltip="Excluir"
             >
               <i class="fa fa-trash"></i>
@@ -91,7 +93,9 @@
 <!-- Estrutura do Modal -->
 <ng-template #template>
   <div class="modal-body text-center">
-    <p style="color: #343a40">Tem certeza de que deseja excluir este evento?</p>
+    <p style="color: #343a40">
+      Tem certeza de que deseja excluir o evento "{{ selectedEventName }}" ?
+    </p>
     <button
       type="button"
       class="btn btn-secondary mx-2"

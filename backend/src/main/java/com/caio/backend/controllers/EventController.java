@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,6 @@ import com.caio.backend.services.EventService;
 
 @RestController
 @RequestMapping("/events")
-@CrossOrigin(origins = "*")
 public class EventController {
 
 	@Autowired
@@ -52,8 +50,8 @@ public class EventController {
 
 	@PutMapping("/{eventId}")
 	public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody EventDTO eventDto) {
-		EventDTO updatedEvent = eventService.updateEvent(eventId, eventDto);
-		return ResponseEntity.ok(updatedEvent);
+	    EventDTO updatedEvent = eventService.updateEvent(eventId, eventDto);
+	    return ResponseEntity.ok(updatedEvent);
 	}
 
 	@DeleteMapping("/{eventId}")

@@ -1,13 +1,8 @@
-export interface Event {
-  id: number;
-  eventName: string;
-  startDate: string;
-  endDate: string;
-}
+import { EventData } from './eventData.model';
 
 export interface User {
   id: number;
   name: string;
   email: string;
-  events: Event[];
+  events: EventData[];
 }

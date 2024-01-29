@@ -1,3 +1,4 @@
+<!-- event-details.component.html -->
 <form [formGroup]="form" class="my-4">
   <div class="p-4 bg-white shadow rounded">
     <h2 class="text-center mb-4">Detalhes do Evento</h2>
@@ -9,9 +10,7 @@
         class="form-control"
         placeholder="Insira o Nome do Evento"
         formControlName="eventName"
-        [ngClass]="{
-          'is-invalid': f.eventName.invalid && f.eventName.touched
-        }"
+        [ngClass]="{ 'is-invalid': f.eventName.invalid && f.eventName.touched }"
       />
       <div
         *ngIf="f.eventName.invalid && f.eventName.touched"
@@ -27,9 +26,7 @@
         type="datetime-local"
         class="form-control"
         formControlName="startDate"
-        [ngClass]="{
-          'is-invalid': f.startDate.invalid && f.startDate.touched
-        }"
+        [ngClass]="{ 'is-invalid': f.startDate.invalid && f.startDate.touched }"
       />
       <div
         *ngIf="f.startDate.invalid && f.startDate.touched"
@@ -45,9 +42,7 @@
         type="datetime-local"
         class="form-control"
         formControlName="endDate"
-        [ngClass]="{
-          'is-invalid': f.endDate.invalid && f.endDate.touched
-        }"
+        [ngClass]="{ 'is-invalid': f.endDate.invalid && f.endDate.touched }"
       />
       <div
         *ngIf="f.endDate.invalid && f.endDate.touched"
@@ -63,10 +58,15 @@
       <button
         class="btn btn-outline-secondary rounded-pill"
         style="background-color: #5a6268; padding: 5px 20px"
+        (click)="resetForm()"
       >
-        <span style="color: white" (click)="resetForm()">Cancelar</span>
+        <span style="color: white">Cancelar</span>
       </button>
-      <button class="btn btn-success rounded-pill" [disabled]="!form.valid">
+      <button
+        class="btn btn-success rounded-pill"
+        [disabled]="!form.valid"
+        (click)="onSubmit()"
+      >
         Salvar Evento
       </button>
     </div>
