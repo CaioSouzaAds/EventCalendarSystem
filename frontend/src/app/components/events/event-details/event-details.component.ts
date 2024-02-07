@@ -3,9 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { EventService } from 'src/app/services/event-service.service';
+import { EventService } from 'src/app/services/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataTimeFormatPipe } from '../../../helpers/DataTimeFormat.pipe';
+import { AccountService } from 'src/app/services/account.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-event-details',
@@ -14,11 +16,10 @@ import { DataTimeFormatPipe } from '../../../helpers/DataTimeFormat.pipe';
   providers: [DataTimeFormatPipe],
 })
 export class EventDetailsComponent implements OnInit {
-  form: FormGroup = new FormGroup({});
+  form: FormGroup;
   evento?: EventData;
   state = 'post';
   eventId: number | null = null;
-  private lastGeneratedId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -27,11 +28,24 @@ export class EventDetailsComponent implements OnInit {
     private eventService: EventService,
     private activatedRouter: ActivatedRoute,
     private router: Router,
-    private dateFormatPipe: DataTimeFormatPipe
-  ) {}
+    private dateFormatPipe: DataTimeFormatPipe,
+    private accountService: AccountService
+  ) {
+    this.form = this.fb.group({
+      eventName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(50),
+        ],
+      ],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
-    this.buildForm();
     this.loadEvent();
     this.spinner.show();
 
@@ -42,7 +56,6 @@ export class EventDetailsComponent implements OnInit {
 
   loadEvent(): void {
     const eventIdParam = this.activatedRouter.snapshot.paramMap.get('id');
-
     if (eventIdParam) {
       this.eventId = +eventIdParam;
       this.state = 'put';
@@ -68,7 +81,6 @@ export class EventDetailsComponent implements OnInit {
         },
       });
     } else {
-      this.toastr.error('ID do evento não fornecido.');
       this.spinner.hide();
     }
   }
@@ -81,7 +93,7 @@ export class EventDetailsComponent implements OnInit {
         this.eventService.putEvent(this.eventId, formData).subscribe({
           next: () => {
             this.toastr.success('Evento atualizado com sucesso!');
-            this.router.navigate(['/events/list']); // Redirecionar após atualização
+            this.router.navigate(['/events/list']);
           },
           error: (error: any) => {
             console.error(error);
@@ -89,16 +101,24 @@ export class EventDetailsComponent implements OnInit {
           },
         });
       } else {
-        const userId = this.generateRandomUserId();
-        this.eventService.postEvent(userId, formData).subscribe({
-          next: () => {
-            this.toastr.success('Evento salvo com sucesso!');
-            this.router.navigate(['/events/list']);
-          },
-          error: (error: any) => {
-            console.error(error);
-            this.toastr.error('Ocorreu um erro ao salvar o evento.');
-          },
+        this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
+          if (user && user.id) {
+            // Correção aplicada aqui: separar userId e eventData como dois argumentos
+            this.eventService.postEvent(user.id, formData).subscribe({
+              next: () => {
+                this.toastr.success('Evento salvo com sucesso!');
+                this.router.navigate(['/events/list']);
+              },
+              error: (error: any) => {
+                console.error(error);
+                this.toastr.error('Ocorreu um erro ao salvar o evento.');
+              },
+            });
+          } else {
+            this.toastr.error(
+              'Usuário não identificado. Por favor, faça login novamente.'
+            );
+          }
         });
       }
     } else {
@@ -109,36 +129,12 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  buildForm(): void {
-    this.form = this.fb.group({
-      eventName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(50),
-        ],
-      ],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-    });
-  }
-
   get f(): any {
     return this.form.controls;
   }
 
   resetForm(): void {
     this.form.reset();
-  }
-
-  generateRandomUserId(): number {
-    let newId;
-    do {
-      newId = Math.floor(Math.random() * 6) + 1;
-    } while (newId === this.lastGeneratedId);
-
-    this.lastGeneratedId = newId;
-    return newId;
+    this.router.navigate(['/events/list']);
   }
 }

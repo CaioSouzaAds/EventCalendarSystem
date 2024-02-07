@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +21,9 @@ import { ProfileComponent } from './components/user/profile/profile.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { UserComponent } from './components/user/user.component';
 import { DataTimeFormatPipe } from './helpers/DataTimeFormat.pipe';
-import { EventService } from './services/event-service.service';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AccountService } from './services/account.service';
+import { EventService } from './services/event.service';
 import { NavComponent } from './shared/nav/nav.component';
 import { TitleComponent } from './shared/title/title.component';
 
@@ -60,7 +62,11 @@ import { TitleComponent } from './shared/title/title.component';
       progressBar: true,
     }),
   ],
-  providers: [EventService],
+  providers: [
+    EventService,
+    AccountService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

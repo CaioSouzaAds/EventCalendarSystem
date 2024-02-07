@@ -4,12 +4,12 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user.model';
-import { EventService } from 'src/app/services/event-service.service';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss'], // Correção: deve ser styleUrls
+  styleUrls: ['./event-list.component.scss'],
 })
 export class EventListComponent implements OnInit {
   modalRef!: BsModalRef;
@@ -33,6 +33,7 @@ export class EventListComponent implements OnInit {
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
+
     this.loadUsers();
   }
 
@@ -41,8 +42,12 @@ export class EventListComponent implements OnInit {
       next: (data: User[]) => {
         this.users = data;
         this.originalUsers = data;
+        this.spinner.hide();
       },
-      error: (error) => console.error('Error loading users', error),
+      error: (error) => {
+        console.error('Error loading users', error);
+        this.spinner.hide();
+      },
     });
   }
   openDeleteModal(

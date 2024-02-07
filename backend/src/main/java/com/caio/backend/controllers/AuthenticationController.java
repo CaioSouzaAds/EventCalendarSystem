@@ -1,6 +1,7 @@
 package com.caio.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,7 +48,7 @@ public class AuthenticationController {
 	    User user = (User) auth.getPrincipal();
 	    String token = tokenService.generateToken(user);
 	    
-	    // Converta User para UserDTO
+	   
 	    UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getEmail());
 	    
 	    // Crie o LoginResponseDTO com UserDTO e token
@@ -59,7 +60,7 @@ public class AuthenticationController {
     
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO data) {
-        if(this.repository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
+        if(this.repository.findByEmail(data.email()) != null) return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já registrado.");
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.name(), data.email(), encryptedPassword, data.role());

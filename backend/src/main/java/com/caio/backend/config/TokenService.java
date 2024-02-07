@@ -1,10 +1,5 @@
 package com.caio.backend.config;
 
-
-
-
-
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -29,32 +24,25 @@ public class TokenService {
 	public String generateToken(User user) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
-			String token = JWT.create()
-					.withIssuer("auth-api")
-					.withSubject(user.getEmail())
-					.withExpiresAt(genExpirationDate())
-					.sign(algorithm);
+			String token = JWT.create().withIssuer("auth-api").withSubject(user.getEmail())
+					.withExpiresAt(genExpirationDate()).sign(algorithm);
 			return token;
 		} catch (JWTCreationException exception) {
 			throw new RuntimeException("Erro while generating token", exception);
 		}
 
 	}
-	
+
 	public String validateToken(String token) {
-	    try {
-	        Algorithm algorithm = Algorithm.HMAC256(secret);
-	        JWTVerifier verifier = JWT.require(algorithm)
-	                .withIssuer("auth-api")
-	                .build();
-	        DecodedJWT jwt = verifier.verify(token);
-	        return jwt.getSubject(); 
-	    } catch (JWTVerificationException exception) {
-	        return ""; 
-	    }
+		try {
+			Algorithm algorithm = Algorithm.HMAC256(secret);
+			JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth-api").build();
+			DecodedJWT jwt = verifier.verify(token);
+			return jwt.getSubject();
+		} catch (JWTVerificationException exception) {
+			return "";
+		}
 	}
-
-
 
 	private Instant genExpirationDate() {
 		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));

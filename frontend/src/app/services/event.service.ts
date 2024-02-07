@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { catchError, take, tap } from 'rxjs/operators';
+
 import { EventData } from '../models/eventData.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class EventService {
       catchError((error) => {
         console.error('Error loading users', error);
         return throwError(() => new Error('Error loading users'));
-      })
+      }),
+      take(1)
     );
   }
 
@@ -42,9 +44,9 @@ export class EventService {
   deleteEvent(eventId: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/events/${eventId}`).pipe(
       catchError((error) => {
-        console.error('Error deleting event', error);
         return throwError(() => new Error('Error deleting event'));
-      })
+      }),
+      take(1)
     );
   }
 
@@ -55,7 +57,8 @@ export class EventService {
         catchError((error) => {
           console.error('Error updating event', error);
           return throwError(() => new Error('Error updating event'));
-        })
+        }),
+        take(1)
       );
   }
 
@@ -66,7 +69,8 @@ export class EventService {
         catchError((error) => {
           console.error('Error posting event', error);
           return throwError(() => new Error('Error posting event'));
-        })
+        }),
+        take(1)
       );
   }
 
@@ -75,7 +79,8 @@ export class EventService {
       catchError((error) => {
         console.error('Error getting event', error);
         return throwError(() => new Error('Error getting event'));
-      })
+      }),
+      take(1)
     );
   }
 }

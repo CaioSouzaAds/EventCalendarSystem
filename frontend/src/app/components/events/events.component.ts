@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
 import { User } from '../../models/user.model';
-import { EventService } from '../../services/event-service.service';
+import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-events',

@@ -1,1 +1,129 @@
 <app-title [titulo]="'Profile'"></app-title>
+
+<form>
+  <div class="container py-3">
+    <div class="row">
+      <!-- Coluna do Perfil -->
+      <div class="col-lg-3">
+        <div class="card mb-3">
+          <div class="card-header"></div>
+          <div class="d-flex align-items-center justify-content-center pt-3">
+            <img
+              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+              width="120"
+              height="120"
+              class="rounded-circle"
+            />
+          </div>
+          <div class="card-body text-center">
+            <div class="h4 mb-3">UserName</div>
+            <div><b>Nome:</b> Miracles Lee Cross</div>
+            <p>
+              Developer of web applications, JavaScript, PHP, Java, Python,
+              Ruby, Java, Node.js, etc.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-6 text-center border-right">
+                  <div class="h5">1342</div>
+                  <div class="h6 text-muted">Eventos Ministrados</div>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="h5">1342</div>
+                  <div class="h6 text-muted">Eventos Participados</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+
+      <!-- Coluna dos Detalhes -->
+      <div class="col-lg-9">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h3 class="border-bottom pb-2">Detalhe Perfil</h3>
+            <div class="form-row">
+              <!-- Título -->
+              <div class="form-group col-md-4">
+                <label>Título</label>
+                <select class="form-control">
+                  <option value=""></option>
+                  <option value="Tecnologo">Tecnólogo(a)</option>
+                  <option value="Bacharel">Bacharel</option>
+                  <!-- Mais opções -->
+                </select>
+              </div>
+              <!-- Primeiro Nome -->
+              <div class="form-group col-md-4">
+                <label>Primeiro Nome</label>
+                <input type="text" class="form-control" />
+              </div>
+              <!-- Último nome -->
+              <div class="form-group col-md-4">
+                <label>Último nome</label>
+                <input type="text" class="form-control" />
+              </div>
+            </div>
+            <div class="form-row">
+              <!-- Email -->
+              <div class="form-group col-md-4">
+                <label>E-mail</label>
+                <input type="email" class="form-control" />
+              </div>
+              <!-- Telefone -->
+              <div class="form-group col-md-4">
+                <label>Telefone</label>
+                <input type="text" class="form-control" />
+              </div>
+              <!-- Função -->
+              <div class="form-group col-md-4">
+                <label>Função</label>
+                <select class="form-control">
+                  <option value=""></option>
+                  <option value="Participante">Participante</option>
+                  <option value="Palestrante">Palestrante</option>
+                </select>
+              </div>
+            </div>
+            <!-- Descrição -->
+            <div class="form-group">
+              <label>Descrição</label>
+              <input type="text" class="form-control" />
+            </div>
+
+            <!-- Mudar Senha -->
+            <h3 class="pt-3 border-bottom pb-2">Mudar Senha</h3>
+            <p>Caso mude de senha, preencha os campos abaixo:</p>
+            <div class="form-row">
+              <!-- Senha -->
+              <div class="form-group col-md-6">
+                <label>Senha</label>
+                <input type="password" class="form-control" />
+              </div>
+              <!-- Confirmar Senha -->
+              <div class="form-group col-md-6">
+                <label>Confirmar Senha</label>
+                <input type="password" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-outline-secondary">
+                Cancelar Alteração
+              </button>
+              <button class="btn btn-success">
+                <span class="spinner-border-sm mr-1"></span>
+                Salvar Alteração
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
